@@ -27,7 +27,7 @@ function UserMenu() {
             </div>
             {isOpen && (
                 <div className="absolute right-0 top-12 w-[40vw] md:w-3/4 bg-white rounded-xl shadow-md overflow-hidden text-sm">
-                    <div className="flex flex-col  cursor-pointer">
+                    <div className="flex flex-col cursor-pointer">
                         <>
                         <MenuItem 
                             onClick={() => { }}
@@ -36,6 +36,10 @@ function UserMenu() {
                         <MenuItem 
                             onClick={() => { }}
                             label="Sign Up"
+                        />
+                        <MenuItem 
+                            onClick={() => { }}
+                            label="Sign In"
                         />
                         </>
                     </div>
