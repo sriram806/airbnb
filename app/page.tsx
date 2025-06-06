@@ -1,7 +1,5 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
-    <div>Hello Airbnb!</div>
+    <div className="text-2xl text-center pt-20 text-rose-500">Hello Airbnb!</div>
   );
 }
