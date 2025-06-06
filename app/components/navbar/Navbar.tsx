@@ -1,6 +1,7 @@
 import React from 'react'
 import Container from '../Container'
 import Logo from './Logo'
+import Search from './Search'
 
 function Navbar() {
   return (
@@ -9,10 +10,7 @@ function Navbar() {
             <Container>
                 <div className='flex flex-row items-center justify-between gap-3 md:gap-0'>
                     <Logo />
-                    <div className='flex flex-row items-center gap-4'>
-                        <div className='text-gray-500 hover:text-gray-800 cursor-pointer'>Login</div>
-                        <div className='text-gray-500 hover:text-gray-800 cursor-pointer'>Sign Up</div>
-                    </div>
+                    <Search />
                 </div>
             </Container>
         </div>
