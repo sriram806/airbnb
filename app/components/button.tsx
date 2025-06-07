@@ -17,7 +17,7 @@ function Button({ label, onClick, disabled, outline, small, icon:Icon }: ButtonP
       onClick={onClick}
       disabled={disabled}
       className={`relative disabled:opacity-70 disabled:cursor-not-allowed rounded-lg transition w-full
-      ${outline ? 'bg-white border-black text-black' : 'bg-rose-500 border-rose-500 text-white'} ${small ? 'text-sm font-light py-1 border-[1px]' : 'text-md font-semibold py-3 border-2'}`}   
+      ${outline ? 'bg-white border-black text-black' : 'bg-rose-500 border-rose-500 text-white'} ${small ? 'text-sm font-light py-1 border-[1px]' : 'text-sm font-semibold py-2 border-2'}`}   
     >
       {Icon && (
         <Icon size={24} className="absolute left-4 top-1/2 transform -translate-y-1/2" />
