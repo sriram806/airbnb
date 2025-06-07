@@ -4,6 +4,8 @@ import "./globals.css";
 import Navbar from "./components/navbar/Navbar";
 import ClientOnly from "./components/ClientOnly";
 import Modal from "./components/models/Modal";
+import RegisterModel from "./components/models/RegisterModel";
+import ToasterProvider from "./providers/ToasterProvide";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -26,7 +28,8 @@ export default function RootLayout({
         className={`${nunito.className} antialiased`}
       >
         <ClientOnly>
-          <Modal actionLabel="Submit" title="My Modal" isOpen />
+          <ToasterProvider />
+          <RegisterModel />
           <Navbar />
         </ClientOnly>
         {children}
