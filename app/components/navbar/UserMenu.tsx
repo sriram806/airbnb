@@ -17,10 +17,10 @@ function UserMenu() {
     return (
         <div className='relative '>
             <div className="flex flex-row items-center gap-3">
-                <div className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer">
+                <div className="hidden md:block text-sm font-semibold py-3 px-4 rounded-md hover:bg-neutral-100 transition cursor-pointer">
                     Airbnb your home
                 </div>
-                <div onClick={toggleMenu} className="p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full hover:shadow-md transition cursor-pointer">
+                <div onClick={toggleMenu} className="p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-md hover:shadow-md transition cursor-pointer">
                     <AiOutlineMenu />
                     <div className="hidden md:block">
                         <Avatar />
@@ -28,7 +28,7 @@ function UserMenu() {
                 </div>
             </div>
             {isOpen && (
-                <div className="absolute right-0 top-12 w-[40vw] md:w-3/4 bg-white rounded-xl shadow-md overflow-hidden text-sm">
+                <div className="absolute right-0 top-12 w-[40vw] md:w-3/4 bg-white rounded-lg shadow-md overflow-hidden text-sm">
                     <div className="flex flex-col cursor-pointer">
                         <>
                         <MenuItem 

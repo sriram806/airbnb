@@ -43,7 +43,7 @@ function RegisterModel() {
             .then(() => {
                 registerModel.onClose();
             })
-            .catch((error) => {
+            .catch((_error) => {
                 toast.error("somethisng went worng");
             })
             .finally(() => {
