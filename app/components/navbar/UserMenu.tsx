@@ -6,8 +6,13 @@ import Avatar from '../Avatar';
 import MenuItem from './MenuItem';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 import useLoginModel from '@/app/hooks/useLoginModel';
+import { User } from '@/app/generated/prisma';
 
-function UserMenu() {
+interface UserMenuProps {
+    currentUser?: User | null;
+}
+
+function UserMenu({ currentUser }: UserMenuProps) {
     const registerModel = useRegisterModal();
     const loginModel = useLoginModel();
     const [isOpen, setIsOpen] = useState(false);

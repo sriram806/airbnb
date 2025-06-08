@@ -9,8 +9,10 @@ import ToasterProvider from "./providers/ToasterProvide";
 import LoginModel from "./components/models/LoginModel";
 
 const nunito = Nunito({
-  variable: "--font-nunito",
   subsets: ["latin"],
+  display: 'swap',
+  preload: true,
+  variable: '--font-nunito',
 });
 
 export const metadata: Metadata = {
