@@ -7,6 +7,7 @@ import ClientOnly from "./components/ClientOnly";
 import RegisterModel from "./components/models/RegisterModel";
 import ToasterProvider from "./providers/ToasterProvide";
 import LoginModel from "./components/models/LoginModel";
+import getCurrentUser from "./actions/getCurrentUser";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -20,11 +21,12 @@ export const metadata: Metadata = {
   description: "An Airbnb clone built with Next.js and React",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const currentUser = await getCurrentUser();
   return (
     <html lang="en">
       <body
@@ -34,7 +36,7 @@ export default function RootLayout({
           <ToasterProvider />
           <RegisterModel />
           <LoginModel />
-          <Navbar />
+          <Navbar currentUser={currentUser}/>
         </ClientOnly>
         {children}
       </body>
