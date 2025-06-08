@@ -61,21 +61,6 @@ npm install
 
 ### 3️⃣ Set Up `.env`
 
-```env
-DATABASE_URL=mongodb+srv://<your-mongo-uri>
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=<your-secret>
-GOOGLE_CLIENT_ID=<your-client-id>
-GOOGLE_CLIENT_SECRET=<your-secret>
-GITHUB_CLIENT_ID=<your-client-id>
-GITHUB_CLIENT_SECRET=<your-secret>
-CLOUDINARY_CLOUD_NAME=<your-cloud-name>
-CLOUDINARY_API_KEY=<your-key>
-CLOUDINARY_API_SECRET=<your-secret>
-STRIPE_SECRET_KEY=<your-key>
-STRIPE_PUBLIC_KEY=<your-key>
-```
-
 > Need help generating `.env`? Let me know!
 
 ### 4️⃣ Run Development Server
