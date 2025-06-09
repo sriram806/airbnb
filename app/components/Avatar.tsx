@@ -7,7 +7,7 @@ interface AvatarProps {
 }
 
 function Avatar({ src }: AvatarProps) {
-  const imageSrc = src ;
+  const imageSrc = src ?? "/images/placeholder.webp";
 
   return (
     <div className="w-[30px] h-[30px] relative">

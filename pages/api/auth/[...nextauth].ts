@@ -51,6 +51,7 @@ export const authOptions: AuthOptions = {
     ],
     pages: {
         signIn: "/",
+        error: "/auth/error",
     },
     debug: process.env.NODE_ENV === "development",
     session: {
@@ -91,6 +92,21 @@ export const authOptions: AuthOptions = {
                 }
             }
             return true;
+        },
+        async session({ session, token }) {
+            if (session?.user) {
+                session.user.id = token.sub!;
+            }
+            return session;
+        },
+        async jwt({ token, user, account }) {
+            if (user) {
+                token.id = user.id;
+            }
+            if (account) {
+                token.accessToken = account.access_token;
+            }
+            return token;
         }
     }
 }
