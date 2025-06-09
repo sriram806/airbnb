@@ -6,11 +6,11 @@ import Avatar from '../Avatar';
 import MenuItem from './MenuItem';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 import useLoginModel from '@/app/hooks/useLoginModel';
-import { User } from '@/app/generated/prisma';
 import { signOut } from 'next-auth/react';
+import { SafeUser } from '@/app/types';
 
 interface UserMenuProps {
-    currentUser?: User | null;
+    currentUser?: SafeUser | null;
 }
 
 function UserMenu({ currentUser }: UserMenuProps) {

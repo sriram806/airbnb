@@ -87,13 +87,6 @@ App should now be running at: [http://localhost:3000](http://localhost:3000)
 ```
 
 ---
-
-## 🌍 Live Demo
-
-[👉 View Demo on Vercel](https://your-vercel-app-url.vercel.app)
-
----
-
 ## 🙌 Acknowledgements
 
 This project draws inspiration from the real Airbnb platform and was built for learning and demonstration purposes only.
