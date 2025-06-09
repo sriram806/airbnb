@@ -31,7 +31,7 @@ function UserMenu({ currentUser }: UserMenuProps) {
                 <div onClick={toggleMenu} className="p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full hover:shadow-md transition cursor-pointer">
                     <AiOutlineMenu />
                     <div className="hidden md:block">
-                        <Avatar />
+                        <Avatar src={currentUser?.image} />
                     </div>
                 </div>
             </div>
