@@ -85,8 +85,8 @@ function RegisterModel() {
     const footerContent = (
         <div className='flex flex-col gap-4 mt-3'>
             <hr className='border-1 border-neutral-200' />
-            <Button outline label='Continue with Google' icon={FcGoogle} onClick={() => {}} />
-            <Button outline label='Continue with Github' icon={AiFillGithub} onClick={() => signIn('github') } />
+            <Button outline label='Continue with Google' icon={FcGoogle} onClick={() => signIn('google')} />
+            <Button outline label='Continue with Github' icon={AiFillGithub} onClick={() => signIn('github')} />
             <div className='text-neutral-500 text-center mt-4 font-light'>
                 <p>Already have an account? 
                     <span 

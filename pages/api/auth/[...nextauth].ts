@@ -57,6 +57,42 @@ export const authOptions: AuthOptions = {
         strategy: "jwt",
     },
     secret: process.env.NEXTAUTH_SECRET,
+    callbacks: {
+        async signIn({ user, account, profile }) {
+            if (account?.provider === "github" || account?.provider === "google") {
+                const existingUser = await prisma.user.findUnique({
+                    where: { email: user.email! },
+                    include: { accounts: true }
+                });
+
+                if (existingUser) {
+                    // Check if the account already exists
+                    const existingAccount = await prisma.account.findFirst({
+                        where: {
+                            provider: account.provider,
+                            providerAccountId: account.providerAccountId
+                        }
+                    });
+
+                    if (!existingAccount) {
+                        // Only create a new account if one doesn't exist
+                        await prisma.account.create({
+                            data: {
+                                userId: existingUser.id,
+                                provider: account.provider,
+                                providerAccountId: account.providerAccountId,
+                                accessToken: account.access_token,
+                                tokenType: account.token_type,
+                                scope: account.scope,
+                            }
+                        });
+                    }
+                    return true;
+                }
+            }
+            return true;
+        }
+    }
 }
 
 export default NextAuth(authOptions);
