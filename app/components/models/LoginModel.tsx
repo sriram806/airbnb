@@ -3,8 +3,8 @@
 import axios from 'axios';
 import { AiFillGithub } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc';
-import { useState } from 'react';
-import {signIn} from 'next-auth/react';
+import { useCallback, useState } from 'react';
+import { signIn } from 'next-auth/react';
 
 import {
     FieldValues,
@@ -46,39 +46,44 @@ function LoginModel() {
             ...data,
             redirect: false,
         })
-        .then((callback)=>{
-            setIsLoading(false);
+            .then((callback) => {
+                setIsLoading(false);
 
-            if(callback ?.ok){
-                toast.success("Logged In");
-                router.refresh();
-                loginModel.onClose();
-            }
+                if (callback?.ok) {
+                    toast.success("Logged In");
+                    router.refresh();
+                    loginModel.onClose();
+                }
 
-            if(callback?.error){
-                toast.error(callback.error);
-            }
-        })
+                if (callback?.error) {
+                    toast.error(callback.error);
+                }
+            })
     }
+
+    const toggle = useCallback(() => {
+        loginModel.onClose();
+        registerModel.onOpen();
+    }, [loginModel, registerModel])
 
     const bodyContent = (
         <div className='flex flex-col gap-4'>
             <Heading title='Welcome back Airbnb' subtitle='Login to your account' center />
-            <Input 
-            id='email'
-            label='Email'
-            disabled={isLoading}
-            register={register}
-            errors={errors}
-            required
+            <Input
+                id='email'
+                label='Email'
+                disabled={isLoading}
+                register={register}
+                errors={errors}
+                required
             />
-            <Input 
-            id='password'
-            label='Password'
-            disabled={isLoading}
-            register={register}
-            errors={errors}
-            required
+            <Input
+                id='password'
+                label='Password'
+                disabled={isLoading}
+                register={register}
+                errors={errors}
+                required
             />
         </div>
     )
@@ -89,12 +94,12 @@ function LoginModel() {
             <Button outline label='Continue with Google' icon={FcGoogle} onClick={() => signIn('google')} />
             <Button outline label='Continue with Github' icon={AiFillGithub} onClick={() => signIn('github')} />
             <div className='text-neutral-500 text-center mt-4 font-light'>
-                <p>Already have an account? 
-                    <span 
-                        onClick={loginModel.onClose} 
-                        className='text-neutral-800 cursor-pointer hover:underline'
+                <p>First time to Aribnb?
+                    <span
+                        onClick={toggle}
+                        className='text-neutral-800 cursor-pointer px-2 hover:underline'
                     >
-                        Log in
+                        Create a Account Here
                     </span>
                 </p>
             </div>
@@ -103,7 +108,7 @@ function LoginModel() {
 
     return (
         <Modal
-            disabled= {isLoading}
+            disabled={isLoading}
             isOpen={loginModel.isOpen}
             title='Login'
             actionLabel='Continue'
