@@ -97,7 +97,7 @@ function LoginModel() {
                 <p>First time to Aribnb?
                     <span
                         onClick={toggle}
-                        className='text-neutral-800 cursor-pointer px-2 hover:underline'
+                        className='text-rose-500 cursor-pointer px-2 hover:underline'
                     >
                         Create a Account Here
                     </span>
