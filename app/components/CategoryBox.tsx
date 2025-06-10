@@ -37,7 +37,7 @@ function CategoryBox({ label, icon: Icon, selected }: CategoryBoxProps) {
         router.push(url);
     },[label,params,router])
     return (
-        <div onClick={handleClick} className={`flex flex-col items-center justify-center gap-2 px-2 border-b-2 hover:text-neutral-800 transition cursor-pointer 
+        <div onClick={handleClick} className={`flex flex-col items-center justify-center gap-2 border-b-2 hover:text-neutral-800 transition cursor-pointer 
     ${selected ? 'border-b-neutral-800' : 'border-transparent'}
     ${selected ? 'text-neutral-800' : 'text-neutral-500'}
     `}>
