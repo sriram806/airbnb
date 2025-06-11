@@ -10,6 +10,11 @@ import { Field, FieldValues, useForm } from 'react-hook-form';
 import { title } from 'process';
 import next from 'next';
 import CountrySelect from '../input/CountrySelect';
+import dynamic from 'next/dynamic';
+
+const Map = dynamic(() => import('../Map'), {
+    ssr: false
+});
 
 enum STEPS {
     CATEGORY = 0,
@@ -73,6 +78,7 @@ function RentModel() {
     })
 
     const category = watch('category');
+    const location = watch('location');
 
     const setCustomValue = (id: string, value: any) => {
         setValue(id, value, {
@@ -108,11 +114,18 @@ function RentModel() {
         bodyContent = (
             <div className='flex flex-col gap-8'>
                 <Heading
-                title='Where is your place located?'
-                subtitle='Help guests find you!'
+                    title='Where is your place located?'
+                    subtitle='Help guests find you!'
                 />
-                <CountrySelect 
-
+                <CountrySelect
+                    value={location}
+                    onChange={(value) => setCustomValue('location', value)}
+                />
+                <Map 
+                    center={location?.latlng} 
+                    zoom={location ? 13 : 2}
+                    scrollWheelZoom={true}
+                    className='h-[35vh] rounded-lg border-2'
                 />
             </div>
         )
