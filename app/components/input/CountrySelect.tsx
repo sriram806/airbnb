@@ -2,6 +2,7 @@
 
 import Select from 'react-select';
 import useCountries from '@/app/hooks/useCountries';
+import Image from 'next/image';
 
 export type CountrySelectValue = {
     flag: string,
@@ -18,6 +19,7 @@ interface CountrySelectProps {
 
 function CountrySelect({ value, onChange }: CountrySelectProps) {
     const { getAll } = useCountries();
+
     return (
         <div>
             <Select
@@ -28,8 +30,13 @@ function CountrySelect({ value, onChange }: CountrySelectProps) {
                 onChange={(value) => onChange(value as CountrySelectValue)}
                 formatOptionLabel={(option: any) => (
                     <div className='flex flex-row items-center gap-3'>
-                        <div className='text-2xl' role="img" aria-label={option.label}>
-                            {option.flag}
+                        <div className='w-6 h-4 relative'>
+                            <Image
+                                src={`https://flagcdn.com/w40/${option.value.toLowerCase()}.png`}
+                                alt={option.label}
+                                fill
+                                className='object-cover'
+                            />
                         </div>
                         <div>
                             {option.label},
@@ -37,7 +44,6 @@ function CountrySelect({ value, onChange }: CountrySelectProps) {
                         </div>
                     </div>
                 )}
-
                 classNames={{
                     control: () => 'p-3 border-2',
                     input: () => 'text-lg',
