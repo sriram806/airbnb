@@ -8,6 +8,8 @@ import { categories } from '../navbar/Catagories';
 import CategoryInput from '../input/CategoryInput';
 import { Field, FieldValues, useForm } from 'react-hook-form';
 import { title } from 'process';
+import next from 'next';
+import CountrySelect from '../input/CountrySelect';
 
 enum STEPS {
     CATEGORY = 0,
@@ -92,7 +94,7 @@ function RentModel() {
                         <CategoryInput
                             onClick={(category) =>
                                 setCustomValue('category', category)}
-                            selected={category=== item.label}
+                            selected={category === item.label}
                             label={item.label}
                             icon={item.icon}
                         />
@@ -102,12 +104,26 @@ function RentModel() {
         </div>
     )
 
+    if (step === STEPS.LOCATION) {
+        bodyContent = (
+            <div className='flex flex-col gap-8'>
+                <Heading
+                title='Where is your place located?'
+                subtitle='Help guests find you!'
+                />
+                <CountrySelect 
+
+                />
+            </div>
+        )
+    }
+
     return (
         <div>
             <Modal
                 isOpen={RentModel.isOpen}
                 onClose={RentModel.onClose}
-                onSubmit={RentModel.onClose}
+                onSubmit={onNext}
                 actionLabel={actionLabel}
                 secondaryActionLabel={secondaryActionLabel}
                 secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
