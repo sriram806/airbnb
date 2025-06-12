@@ -6,7 +6,7 @@ import { useMemo, useState } from 'react';
 import Heading from '../Heading';
 import { categories } from '../navbar/Catagories';
 import CategoryInput from '../input/CategoryInput';
-import { Field, FieldValues, useForm } from 'react-hook-form';
+import { FieldValues, useForm, Path } from 'react-hook-form';
 import CountrySelect from '../input/CountrySelect';
 import dynamic from 'next/dynamic';
 import Counter from '../input/Counter';
@@ -29,9 +29,21 @@ enum STEPS {
     PRICE = 5
 }
 
+interface FormData extends FieldValues {
+    category: string;
+    location: any;
+    guestCount: number;
+    roomCount: number;
+    bathroomCount: number;
+    imageSrc: string;
+    price: number;
+    title: string;
+    description: string;
+}
+
 function RentModel() {
     const router = useRouter();
-    const RentModel = useRentModel();
+    const rentModel = useRentModel();
     const [step, setStep] = useState(STEPS.CATEGORY);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -43,8 +55,9 @@ function RentModel() {
         formState: {
             errors,
         },
-        reset
-    } = useForm<FieldValues>({
+        reset,
+        trigger
+    } = useForm<FormData>({
         defaultValues: {
             category: '',
             location: null,
@@ -64,9 +77,12 @@ function RentModel() {
     const roomCount = watch('roomCount');
     const bathroomCount = watch('bathroomCount');
     const imageSrc = watch('imageSrc');
+    const title = watch('title');
+    const description = watch('description');
+    const price = watch('price');
 
-    const setCustomValue = (id: string, value: any) => {
-        setValue(id, value, {
+    const setCustomValue = (id: keyof FormData, value: any) => {
+        setValue(id as Path<FormData>, value, {
             shouldValidate: true,
             shouldDirty: true,
             shouldTouch: true
@@ -77,11 +93,16 @@ function RentModel() {
         setStep((value) => value - 1);
     };
 
-    const onNext = () => {
+    const onNext = async () => {
+        const isValid = await trigger();
+        if (!isValid) {
+            toast.error('Please fill in all required fields');
+            return;
+        }
         setStep((value) => value + 1);
     };
 
-    const onSubmit = async (data: FieldValues) => {
+    const onSubmit = async (data: FormData) => {
         if (step !== STEPS.PRICE) {
             return onNext();
         }
@@ -90,13 +111,14 @@ function RentModel() {
 
         try {
             await axios.post('/api/listings', data);
-            toast.success('Listing created!');
+            toast.success('Listing created successfully!');
             router.refresh();
             reset();
             setStep(STEPS.CATEGORY);
-            RentModel.onClose();
+            rentModel.onClose();
         } catch (error) {
-            toast.error('Something went wrong.');
+            toast.error('Failed to create listing. Please try again.');
+            console.error('Error creating listing:', error);
         } finally {
             setIsLoading(false);
         }
@@ -215,17 +237,19 @@ function RentModel() {
                     id="title"
                     label="Title"
                     disabled={isLoading}
-                    register={register}
-                    errors={errors}
+                    value={title}
+                    onChange={(value) => setCustomValue('title', value)}
+                    errors={errors.title?.message ? [errors.title.message] : []}
                     required
                 />
-                <hr />
+                <hr className='border-neutral-300' />
                 <Input
                     id="description"
                     label="Description"
                     disabled={isLoading}
-                    register={register}
-                    errors={errors}
+                    value={description}
+                    onChange={(value) => setCustomValue('description', value)}
+                    errors={errors.description?.message ? [errors.description.message] : []}
                     required
                 />
             </div>
@@ -245,8 +269,9 @@ function RentModel() {
                     formatPrice
                     type="number"
                     disabled={isLoading}
-                    register={register}
-                    errors={errors}
+                    value={price.toString()}
+                    onChange={(value) => setCustomValue('price', parseInt(value))}
+                    errors={errors.price?.message ? [errors.price.message] : []}
                     required
                 />
             </div>
@@ -255,8 +280,8 @@ function RentModel() {
 
     return (
         <Modal
-            isOpen={RentModel.isOpen}
-            onClose={RentModel.onClose}
+            isOpen={rentModel.isOpen}
+            onClose={rentModel.onClose}
             onSubmit={handleSubmit(onSubmit)}
             actionLabel={actionLabel}
             secondaryActionLabel={secondaryActionLabel}

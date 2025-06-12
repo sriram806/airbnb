@@ -3,81 +3,78 @@
 import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Image from 'next/image';
+import { CldUploadWidget } from 'next-cloudinary';
 import { TbPhotoPlus } from 'react-icons/tb';
 
 interface ImageUploadProps {
-    onChange: (value: string) => void;
-    value: string;
+  onChange: (value: string) => void;
+  value: string;
 }
 
-const ImageUpload: React.FC<ImageUploadProps> = ({
-    onChange,
-    value
-}) => {
-    const handleDrop = useCallback((acceptedFiles: File[]) => {
-        const file = acceptedFiles[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                onChange(e.target?.result as string);
-            };
-            reader.readAsDataURL(file);
-        }
-    }, [onChange]);
+const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value }) => {
+  const handleUpload = useCallback(
+    (result: any) => {
+      onChange(result.info.secure_url);
+    },
+    [onChange]
+  );
 
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
-        onDrop: handleDrop,
-        accept: {
-            'image/*': ['.jpeg', '.jpg', '.png', '.webp']
-        },
-        maxFiles: 1
-    });
+  const handleDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      const file = acceptedFiles[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => onChange(e.target?.result as string);
+        reader.readAsDataURL(file);
+      }
+    },
+    [onChange]
+  );
 
-    return (
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: handleDrop,
+    accept: { 'image/*': ['.jpeg', '.jpg', '.png', '.webp'] },
+    maxFiles: 1,
+  });
+
+  return (
+    <CldUploadWidget
+      onUpload={handleUpload}
+      uploadPreset="airbnb"
+      options={{ maxFiles: 1 }}
+    >
+      {({ open }) => (
         <div
-            className="w-full"
+          {...getRootProps()}
+          role="button"
+          tabIndex={0}
+          onClick={(e) => {
+            e.preventDefault();
+            open?.();
+          }}
+          className={`relative cursor-pointer rounded-xl border-2 border-dashed p-10 transition duration-200 flex flex-col items-center justify-center gap-4 ${
+            isDragActive
+              ? 'border-blue-400 bg-blue-50 text-blue-600'
+              : 'border-neutral-300 bg-muted/20 text-neutral-600'
+          } hover:opacity-80`}
         >
-            <div
-                {...getRootProps()}
-                className={`
-                    w-full
-                    relative
-                    cursor-pointer
-                    hover:opacity-70
-                    transition
-                    border-dashed
-                    border-2
-                    p-20
-                    border-neutral-300
-                    flex
-                    flex-col
-                    justify-center
-                    items-center
-                    gap-4
-                    text-neutral-600
-                    ${isDragActive ? 'border-rose-500' : ''}
-                `}
-            >
-                <input {...getInputProps()} />
-                <TbPhotoPlus size={50} />
-                <div className="font-semibold text-lg">
-                    Click to upload or drag and drop
-                </div>
-                {value && (
-                    <div
-                        className="absolute inset-0 w-full h-full"
-                    >
-                        <Image
-                            fill
-                            style={{ objectFit: 'cover' }}
-                            src={value}
-                            alt="Upload"
-                        />
-                    </div>
-                )}
+          <input {...getInputProps()} />
+          <TbPhotoPlus size={50} />
+          <div className="font-semibold text-lg">Click or Drag to Upload</div>
+          {value && (
+            <div className="absolute inset-0 w-full h-full">
+              <Image
+                alt="Uploaded Image"
+                src={value}
+                fill
+                className="object-cover rounded-xl"
+              />
             </div>
+          )}
         </div>
-    );
-}
+      )}
+    </CldUploadWidget>
+  );
+};
 
-export default ImageUpload; 
+export default ImageUpload;
