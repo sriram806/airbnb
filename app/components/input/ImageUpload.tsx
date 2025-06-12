@@ -10,11 +10,11 @@ interface ImageUploadProps {
     value: string;
 }
 
-function ImageUpload({
+const ImageUpload: React.FC<ImageUploadProps> = ({
     onChange,
     value
-}: ImageUploadProps) {
-    const handleUpload = useCallback((acceptedFiles: File[]) => {
+}) => {
+    const handleDrop = useCallback((acceptedFiles: File[]) => {
         const file = acceptedFiles[0];
         if (file) {
             const reader = new FileReader();
@@ -25,40 +25,57 @@ function ImageUpload({
         }
     }, [onChange]);
 
-    const { getRootProps, getInputProps } = useDropzone({
-        maxFiles: 1,
-        onDrop: handleUpload,
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        onDrop: handleDrop,
         accept: {
             'image/*': ['.jpeg', '.jpg', '.png', '.webp']
-        }
+        },
+        maxFiles: 1
     });
 
     return (
         <div
-            {...getRootProps({
-                className: 'w-full p-4 text-center border-2 border-dashed rounded-md hover:opacity-80 transition cursor-pointer'
-            })}
+            className="w-full"
         >
-            <input {...getInputProps()} />
-            <div className="flex flex-col items-center justify-center gap-4">
-                <TbPhotoPlus
-                    size={50}
-                    className="text-neutral-600"
-                />
+            <div
+                {...getRootProps()}
+                className={`
+                    w-full
+                    relative
+                    cursor-pointer
+                    hover:opacity-70
+                    transition
+                    border-dashed
+                    border-2
+                    p-20
+                    border-neutral-300
+                    flex
+                    flex-col
+                    justify-center
+                    items-center
+                    gap-4
+                    text-neutral-600
+                    ${isDragActive ? 'border-rose-500' : ''}
+                `}
+            >
+                <input {...getInputProps()} />
+                <TbPhotoPlus size={50} />
                 <div className="font-semibold text-lg">
-                    Click to upload
+                    Click to upload or drag and drop
                 </div>
+                {value && (
+                    <div
+                        className="absolute inset-0 w-full h-full"
+                    >
+                        <Image
+                            fill
+                            style={{ objectFit: 'cover' }}
+                            src={value}
+                            alt="Upload"
+                        />
+                    </div>
+                )}
             </div>
-            {value && (
-                <div className="absolute inset-0 w-full h-full">
-                    <Image
-                        fill
-                        style={{ objectFit: 'cover' }}
-                        src={value}
-                        alt="House"
-                    />
-                </div>
-            )}
         </div>
     );
 }

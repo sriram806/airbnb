@@ -15,6 +15,7 @@
     "axios": "^1.9.0",
     "bcrypt": "^6.0.0",
     "country-flag-icons": "^1.5.19",
+    "framer-motion": "^12.17.0",
     "leaflet": "^1.9.4",
     "next": "15.3.3",
     "next-auth": "^4.24.11",

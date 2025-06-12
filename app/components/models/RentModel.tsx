@@ -171,14 +171,14 @@ function RentModel() {
                     value={guestCount}
                     onChange={(value) => setCustomValue('guestCount', value)}
                 />
-                <hr />
+                <hr className='border-neutral-300' />
                 <Counter
                     title="Rooms"
                     subtitle="How many rooms do you have?"
                     value={roomCount}
                     onChange={(value) => setCustomValue('roomCount', value)}
                 />
-                <hr />
+                <hr className='border-neutral-300' />
                 <Counter
                     title="Bathrooms"
                     subtitle="How many bathrooms do you have?"
