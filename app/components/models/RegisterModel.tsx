@@ -18,12 +18,11 @@ import Input from '../input/Input';
 import toast from 'react-hot-toast';
 import Button from '../button';
 import { signIn } from 'next-auth/react';
-import LoginModel from './LoginModel';
-import useLoginModel from '@/app/hooks/useLoginModel';
+import useLoginModal from '@/app/hooks/useLoginModel';
 
-function RegisterModel() {
-    const registerModel = useRegisterModal();
-    const loginModal = useLoginModel();
+function RegisterModal() {
+    const registerModal = useRegisterModal();
+    const loginModal = useLoginModal();
     const [isLoading, setIsLoading] = useState(false);
 
     const {
@@ -45,10 +44,11 @@ function RegisterModel() {
 
         axios.post('/api/register', data)
             .then(() => {
-                registerModel.onClose();
+                registerModal.onClose();
+                loginModal.onOpen();
             })
-            .catch(() => {
-                toast.error("somethisng went worng");
+            .catch((error) => {
+                toast.error(error.response?.data?.error || "Something went wrong");
             })
             .finally(() => {
                 setIsLoading(false);
@@ -57,8 +57,8 @@ function RegisterModel() {
 
     const toggle = useCallback(() => {
         loginModal.onOpen();
-        registerModel.onClose();
-    }, [loginModal, registerModel])
+        registerModal.onClose();
+    }, [loginModal, registerModal])
 
     const bodyContent = (
         <div className='flex flex-col gap-4'>
@@ -95,7 +95,7 @@ function RegisterModel() {
             <hr className='border-1 border-neutral-200' />
             <Button outline label='Continue with Google' icon={FcGoogle} onClick={() => signIn('google')} />
             <Button outline label='Continue with Github' icon={AiFillGithub} onClick={() => signIn('github')} />
-            <div className='text-neutral-500 text-center mt-4 font-light gap-2'>
+            <div className='text-neutral-500 text-center mt-4 font-light'>
                 <p>Already have an account?
                     <span
                         onClick={toggle}
@@ -111,10 +111,10 @@ function RegisterModel() {
     return (
         <Modal
             disabled={isLoading}
-            isOpen={registerModel.isOpen}
+            isOpen={registerModal.isOpen}
             title='Register'
             actionLabel='Continue'
-            onClose={registerModel.onClose}
+            onClose={registerModal.onClose}
             onSubmit={handleSubmit(onSubmit)}
             body={bodyContent}
             footer={footerContent}
@@ -122,4 +122,4 @@ function RegisterModel() {
     )
 }
 
-export default RegisterModel;
+export default RegisterModal;

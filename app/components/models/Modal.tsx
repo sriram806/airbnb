@@ -56,24 +56,30 @@ function Modal({
     if (!isOpen) return null;
 
     return (
-        <div className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-neutral-800/70'>
-            <div className='relative w-full md:w-1/2 lg:w-2/5 xl:w-1/3 my-6 mx-auto h-full lg:h-auto md:h-auto'>
-                <div className={`translate duration-300 h-full ${showModal ? 'translate-y-0' : 'translate-y-full'} ${showModal ? 'opacity-100' : 'opacity-0'}`}>
-                    <div className='translate h-full lg:h-auto md:h-auto border-0 rounded-sm shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'>
-                        {/* Header */}
-                        <div className='flex items-center p-6 border-1 border-neutral-200 rounded-t justify-center relative border-b'>
-                            <button className='p-1 border-0 hover:opacity-70 transition absolute left-9' onClick={handleClose}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden bg-neutral-800/70 outline-none focus:outline-none">
+            <div className="relative mx-auto my-6 h-full w-full md:h-auto md:w-4/6 lg:h-auto lg:w-3/6 xl:w-2/5">
+                <div className={`
+                    translate
+                    duration-300
+                    h-full
+                    ${showModal ? 'translate-y-0' : 'translate-y-full'}
+                    ${showModal ? 'opacity-100' : 'opacity-0'}
+                `}>
+                    <div className="translate relative flex h-full w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none md:h-auto lg:h-auto">
+                        <div className="relative flex items-center justify-center rounded-t border-b p-6">
+                            <button
+                                onClick={handleClose}
+                                className="absolute left-9 border-0 p-1 transition hover:opacity-70"
+                            >
                                 <IoMdClose size={18} />
                             </button>
-                            <div className='text-lg font-semibold'>
+                            <div className="text-lg font-semibold">
                                 {title}
                             </div>
                         </div>
-                        {/* Body */}
-                        <div className='relative p-6 flex-auto'>
+                        <div className="relative flex-auto p-6">
                             {body}
                         </div>
-                        {/* Footer */}
                         <div className='flex flex-col gap-2 p-6'>
                             <div className='flex flex-row items-center gap-4 w-full'>
                                 {secondaryAction && secondaryActionLabel && (
@@ -84,7 +90,11 @@ function Modal({
                                         onClick={handleSecondaryAction}
                                     />
                                 )}
-                                <Button  disabled= {disabled} label={actionLabel} onClick={handleSubmit} />
+                                <Button
+                                    disabled={disabled}
+                                    label={actionLabel}
+                                    onClick={handleSubmit}
+                                />
                             </div>
                             {footer}
                         </div>

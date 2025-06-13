@@ -1,6 +1,6 @@
 'use client';
 
-import useRentModel from '@/app/hooks/useRent'
+import useRentModal from '@/app/hooks/useRent'
 import Modal from './Modal'
 import { useMemo, useState } from 'react';
 import Heading from '../Heading';
@@ -41,9 +41,9 @@ interface FormData extends FieldValues {
     description: string;
 }
 
-function RentModel() {
+function RentModal() {
     const router = useRouter();
-    const rentModel = useRentModel();
+    const rentModal = useRentModal();
     const [step, setStep] = useState(STEPS.CATEGORY);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -115,7 +115,7 @@ function RentModel() {
             router.refresh();
             reset();
             setStep(STEPS.CATEGORY);
-            rentModel.onClose();
+            rentModal.onClose();
         } catch (error) {
             toast.error('Failed to create listing. Please try again.');
             console.error('Error creating listing:', error);
@@ -239,7 +239,7 @@ function RentModel() {
                     disabled={isLoading}
                     value={title}
                     onChange={(value) => setCustomValue('title', value)}
-                    errors={errors.title?.message ? [errors.title.message] : []}
+                    errors={errors}
                     required
                 />
                 <hr className='border-neutral-300' />
@@ -249,7 +249,7 @@ function RentModel() {
                     disabled={isLoading}
                     value={description}
                     onChange={(value) => setCustomValue('description', value)}
-                    errors={errors.description?.message ? [errors.description.message] : []}
+                    errors={errors}
                     required
                 />
             </div>
@@ -271,7 +271,7 @@ function RentModel() {
                     disabled={isLoading}
                     value={price.toString()}
                     onChange={(value) => setCustomValue('price', parseInt(value))}
-                    errors={errors.price?.message ? [errors.price.message] : []}
+                    errors={errors}
                     required
                 />
             </div>
@@ -280,17 +280,17 @@ function RentModel() {
 
     return (
         <Modal
-            isOpen={rentModel.isOpen}
-            onClose={rentModel.onClose}
-            onSubmit={handleSubmit(onSubmit)}
-            actionLabel={actionLabel}
-            secondaryActionLabel={secondaryActionLabel}
-            secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
-            title='Airbnb your home'
-            body={bodyContent}
             disabled={isLoading}
+            isOpen={rentModal.isOpen}
+            title="Airbnb your home!"
+            actionLabel={actionLabel}
+            onSubmit={handleSubmit(onSubmit)}
+            secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
+            secondaryActionLabel={secondaryActionLabel}
+            onClose={rentModal.onClose}
+            body={bodyContent}
         />
     );
 }
 
-export default RentModel;
+export default RentModal;

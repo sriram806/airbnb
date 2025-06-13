@@ -11,7 +11,7 @@ import {
     SubmitHandler,
     useForm
 } from 'react-hook-form';
-import useLoginModel from '@/app/hooks/useLoginModel';
+import useLoginModal from '@/app/hooks/useLoginModel';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 import Modal from './Modal';
 import Heading from '../Heading';
@@ -22,8 +22,8 @@ import { useRouter } from 'next/navigation';
 
 function LoginModel() {
     const router = useRouter();
-    const loginModel = useLoginModel();
-    const registerModel = useRegisterModal();
+    const loginModal = useLoginModal();
+    const registerModal = useRegisterModal();
     const [isLoading, setIsLoading] = useState(false);
 
     const {
@@ -52,7 +52,7 @@ function LoginModel() {
                 if (callback?.ok) {
                     toast.success("Logged In");
                     router.refresh();
-                    loginModel.onClose();
+                    loginModal.onClose();
                 }
 
                 if (callback?.error) {
@@ -62,9 +62,9 @@ function LoginModel() {
     }
 
     const toggle = useCallback(() => {
-        loginModel.onClose();
-        registerModel.onOpen();
-    }, [loginModel, registerModel])
+        loginModal.onClose();
+        registerModal.onOpen();
+    }, [loginModal, registerModal])
 
     const bodyContent = (
         <div className='flex flex-col gap-4'>
@@ -94,12 +94,12 @@ function LoginModel() {
             <Button outline label='Continue with Google' icon={FcGoogle} onClick={() => signIn('google')} />
             <Button outline label='Continue with Github' icon={AiFillGithub} onClick={() => signIn('github')} />
             <div className='text-neutral-500 text-center mt-4 font-light'>
-                <p>First time to Aribnb?
+                <p>First time to Airbnb?
                     <span
                         onClick={toggle}
                         className='text-rose-500 cursor-pointer px-2 hover:underline'
                     >
-                        Create a Account Here
+                        Create an Account Here
                     </span>
                 </p>
             </div>
@@ -109,10 +109,10 @@ function LoginModel() {
     return (
         <Modal
             disabled={isLoading}
-            isOpen={loginModel.isOpen}
+            isOpen={loginModal.isOpen}
             title='Login'
             actionLabel='Continue'
-            onClose={loginModel.onClose}
+            onClose={loginModal.onClose}
             onSubmit={handleSubmit(onSubmit)}
             body={bodyContent}
             footer={footerContent}

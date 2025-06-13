@@ -1,6 +1,7 @@
 'use client';
 
 import { IconType } from 'react-icons';
+import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 
 interface InputProps {
     id: string;
@@ -9,10 +10,11 @@ interface InputProps {
     disabled?: boolean;
     formatPrice?: boolean;
     required?: boolean;
-    errors?: string[];
+    register?: UseFormRegister<FieldValues>;
+    errors?: FieldErrors;
     icon?: IconType;
-    value: string;
-    onChange: (value: string) => void;
+    value?: string;
+    onChange?: (value: string) => void;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -22,12 +24,13 @@ const Input: React.FC<InputProps> = ({
     disabled,
     formatPrice,
     required,
-    errors = [],
+    register,
+    errors,
     icon: Icon,
     value,
     onChange
 }) => {
-    const hasErrors = errors.length > 0;
+    const hasErrors = errors?.[id];
 
     return (
         <div
@@ -41,8 +44,10 @@ const Input: React.FC<InputProps> = ({
                 disabled={disabled}
                 placeholder=" "
                 type={type}
-                value={value}
-                onChange={(e) => onChange(e.target.value)}
+                {...(register ? register(id, { required }) : {
+                    value: value || '',
+                    onChange: (e) => onChange?.(e.target.value)
+                })}
                 className={`
                     peer
                     w-full
@@ -93,7 +98,7 @@ const Input: React.FC<InputProps> = ({
                 <div
                     className="text-rose-500 text-sm mt-1"
                 >
-                    {errors[0]}
+                    {errors?.[id]?.message as string}
                 </div>
             )}
         </div>
